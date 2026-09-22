@@ -1,0 +1,9 @@
+{
+  "name": "Gramáticas Urbanas de Rosario",
+  "short_name": "Gramáticas Urbanas",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#202020",
+  "lang": "es-AR"
+}
