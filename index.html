@@ -52,18 +52,6 @@
   body { background:#FFFFFF; color:#003B5C; }
   h1,h2,h3,.font-display { font-family: 'Montserrat', sans-serif !important; }
 
-  /* Motivo "vía" - línea doble con durmientes, usado como divisor */
-  .rail-divider { position: relative; height: 18px; }
-  .rail-divider::before, .rail-divider::after {
-    content:""; position:absolute; left:0; right:0; height:2px; background:#009FE3; opacity:.65;
-  }
-  .rail-divider::before { top:4px; }
-  .rail-divider::after { top:12px; }
-  .rail-divider .ties { position:absolute; top:2px; left:0; right:0; height:14px;
-    background-image: repeating-linear-gradient(90deg, #FFC72C 0 3px, transparent 3px 22px);
-    opacity:.35;
-  }
-
   ::-webkit-scrollbar { width:10px; height:10px; }
   ::-webkit-scrollbar-track { background:#F1F3F4; }
   ::-webkit-scrollbar-thumb { background:#009FE3; border-radius:8px; }
@@ -242,7 +230,6 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
 <header class="bg-linez-ink text-linez-cream sticky top-0 z-40 shadow-md">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
     <div class="flex items-center gap-3">
-      <img src="assets/logo-lab.jpg" alt="Laboratorio de Cultura Digital" class="h-12 sm:h-14 w-auto object-contain bg-white rounded-lg p-1">
       <div>
         <h1 class="font-display text-lg sm:text-xl font-bold leading-none">Gramáticas Urbanas de Rosario</h1>
         <p class="text-[11px] sm:text-xs text-linez-cream/60 leading-none mt-1">Archivo situado y georreferenciado de gráfica urbana</p>
@@ -266,7 +253,6 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
   <section class="grid grid-cols-1 lg:grid-cols-5 gap-6 items-start">
     <div class="lg:col-span-2 space-y-4">
       <h2 class="font-display text-3xl sm:text-4xl font-extrabold text-linez-ink leading-tight">Gramáticas Urbanas<br>de Rosario</h2>
-      <div class="rail-divider"><div class="ties"></div></div>
       <div class="max-h-80 overflow-y-auto pr-3 space-y-4 text-sm sm:text-base text-linez-ink/80 leading-relaxed" style="scrollbar-gutter: stable;">
         <p><strong>Gramáticas Urbanas de Rosario</strong> es un proyecto piloto de investigación creativa de la carrera de Diseño Gráfico de FAPyD–UNR que propone construir un archivo situado y georreferenciado de las expresiones gráficas presentes en el espacio urbano de Rosario.</p>
         <p>A partir de relevamientos de campo realizados por estudiantes, se registran fotografías junto con su localización territorial y una serie de datos descriptivos que permiten clasificar y contextualizar el material. El proyecto busca reconocer relaciones entre gráfica y territorio, identificando recurrencias, diferencias, concentraciones y particularidades de las distintas expresiones visuales presentes en la ciudad.</p>
@@ -290,7 +276,7 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
         <div class="flex items-center justify-between gap-2 mb-1">
           <h3 class="font-display text-base font-bold text-linez-ink">Filtro general</h3>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
           <div>
             <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">ID / código</label>
             <input id="buscador-publico-id" list="sugerencias-publico-id" type="text" oninput="buscarPublico()" autocomplete="off" placeholder="ID del registro…" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm">
@@ -304,10 +290,6 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
           <div>
             <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">Distrito</label>
             <select id="filtro-publico-distrito" onchange="cambiarFiltroGeoPublico('distrito')" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm"><option value="">Todas</option></select>
-          </div>
-          <div>
-            <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">Vecinal</label>
-            <select id="filtro-publico-vecinal" onchange="cambiarFiltroGeoPublico('vecinal')" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm"><option value="">Todos</option></select>
           </div>
           <div>
             <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">Barrio</label>
@@ -387,10 +369,6 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
         <select id="filtro-usuario-distrito" onchange="cambiarFiltroGeoUsuario('distrito')" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm"><option value="">Todas</option></select>
       </div>
       <div>
-        <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">Vecinal</label>
-        <select id="filtro-usuario-vecinal" onchange="cambiarFiltroGeoUsuario('vecinal')" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm"><option value="">Todos</option></select>
-      </div>
-      <div>
         <label class="block text-[11px] font-semibold text-linez-ink/60 mb-1">Barrio</label>
         <select id="filtro-usuario-barrio" onchange="filtrarUsuarioGlobal()" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm"><option value="">Todas</option></select>
       </div>
@@ -465,8 +443,7 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
         <p id="estado-geocodificacion-carga" class="text-[11px] text-linez-ink/50 mt-1">Escribí una dirección y presioná Enter o "Ubicar dirección". También podés marcar el punto directamente en el mapa.</p>
       </div>
       <div><label class="text-xs font-semibold text-linez-ink/70">Distrito <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="carga-distrito" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
-      <div><label class="text-xs font-semibold text-linez-ink/70">Vecinal <span class="font-normal text-linez-ink/40">(automático)</span></label><input id="carga-vecinal" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
-      <div class="sm:col-span-2"><label class="text-xs font-semibold text-linez-ink/70">Barrio <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="carga-barrio" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
+      <div><label class="text-xs font-semibold text-linez-ink/70">Barrio <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="carga-barrio" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
       <div class="sm:col-span-2">
         <label class="text-xs font-semibold text-linez-ink/70 flex items-center justify-between">
           <span>Ubicación en el mapa * <span class="text-linez-ink/40 font-normal">(clic o arrastrá el marcador)</span></span>
@@ -567,7 +544,7 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
 
 <footer class="bg-linez-ink text-white py-7 mt-10 border-t-4 border-linez-rust no-print">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-6">
-    <div class="text-xs leading-relaxed"><strong>Gramáticas Urbanas de Rosario</strong><br><span class="text-white/70">Proyecto piloto de investigación creativa · Diseño Gráfico · FAPyD–UNR</span></div>
+    <div class="text-xs leading-relaxed"><strong>Gramáticas Urbanas de Rosario</strong><br><span class="text-white/70">Proyecto piloto de investigación creativa · Diseño Gráfico · FAPyD–UNR</span><p class="mt-2 text-white/70 max-w-2xl">Gramáticas Urbanas de Rosario es una Aplicación Web desarrollada por el Laboratorio de Cultura Digital y el CURDIUR - CONICET/UNR.</p></div>
     <div class="flex flex-col items-center gap-2"><img src="assets/logo-lab.jpg" alt="Laboratorio de Cultura Digital" class="h-16 w-auto bg-white rounded-lg p-1"><img src="assets/logo-curdiur.jpg" alt="CURDIUR" class="h-14 w-auto bg-white rounded-lg p-1"></div>
   </div>
 </footer>
@@ -581,7 +558,16 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
     <p class="text-xs text-linez-ink/60 mb-4">Acceso para colaboradores y administración del proyecto.</p>
     <form onsubmit="enviarLogin(event)" class="space-y-3">
       <input id="login-usuario" required type="text" placeholder="Usuario" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm">
-      <input id="login-clave" required type="password" placeholder="Contraseña" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm">
+      <div>
+        <div class="relative">
+          <input id="login-clave" required type="password" placeholder="Contraseña" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 pr-20 text-sm">
+          <button id="btn-mostrar-login-clave" type="button" onclick="alternarVisibilidadClaveLogin_()" class="absolute inset-y-0 right-0 px-3 text-[11px] font-semibold text-linez-ink/65 hover:text-linez-ink" aria-pressed="false">Mostrar</button>
+        </div>
+        <label class="mt-2 inline-flex items-center gap-2 text-xs text-linez-ink/65 cursor-pointer select-none">
+          <input id="login-mostrar-clave" type="checkbox" onchange="alternarVisibilidadClaveLogin_(this.checked)" class="w-4 h-4 accent-linez-rail">
+          <span>Mostrar contraseña</span>
+        </label>
+      </div>
       <p id="login-error" class="hidden text-xs text-linez-black"></p>
       <button type="submit" class="w-full py-2.5 rounded-lg bg-linez-rust text-linez-ink font-semibold text-sm hover:bg-linez-rustDark">Ingresar</button>
     </form>
@@ -609,7 +595,7 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
       <input id="sol-usuario" required type="text" placeholder="Usuario deseado" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm">
       <select id="sol-tipo" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm">
         <option value="GENERAL">Colaborador (GENERAL)</option>
-        
+        <option value="ADMIN">Administrador (ADMIN)</option>
       </select>
       <p id="sol-error" class="hidden text-xs text-linez-black"></p>
       <button type="submit" class="w-full py-2.5 rounded-lg bg-linez-rail text-white font-semibold text-sm hover:bg-linez-railDark">Enviar solicitud</button>
@@ -644,8 +630,7 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
       <div><span class="text-linez-ink/50 text-xs block">Dirección / referencia</span><span id="ficha-direccion">-</span></div>
       <div><span class="text-linez-ink/50 text-xs block">Coordenadas</span><span id="ficha-coords">-</span></div>
       <div><span class="text-linez-ink/50 text-xs block">Distrito</span><span id="ficha-distrito">-</span></div>
-      <div><span class="text-linez-ink/50 text-xs block">Vecinal</span><span id="ficha-vecinal">-</span></div>
-      <div class="sm:col-span-2"><span class="text-linez-ink/50 text-xs block">Barrio</span><span id="ficha-barrio">-</span></div>
+      <div><span class="text-linez-ink/50 text-xs block">Barrio</span><span id="ficha-barrio">-</span></div>
       <div class="sm:col-span-2"><span class="text-linez-ink/50 text-xs block">Descripción general</span><span id="ficha-descripcion">-</span></div>
     </div>
 
@@ -694,11 +679,10 @@ button:disabled { opacity: .45; cursor: not-allowed; filter: grayscale(.15); }
       <input id="edit-direccion" type="text" class="w-full border border-linez-ink/20 rounded-lg px-3 py-2 text-sm" placeholder="Dirección">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div><label class="text-xs font-semibold text-linez-ink/70">Distrito <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="edit-distrito" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
-        <div><label class="text-xs font-semibold text-linez-ink/70">Vecinal <span class="font-normal text-linez-ink/40">(automático)</span></label><input id="edit-vecinal" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
-        <div class="sm:col-span-2"><label class="text-xs font-semibold text-linez-ink/70">Barrio <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="edit-barrio" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
+        <div><label class="text-xs font-semibold text-linez-ink/70">Barrio <span class="font-normal text-linez-ink/40">(automática)</span></label><input id="edit-barrio" readonly class="w-full mt-1 border border-linez-ink/20 rounded-lg px-3 py-2 text-sm bg-linez-cream/60"></div>
       </div>
       <div id="map-edit-ficha" class="w-full h-64 rounded-xl border border-linez-ink/20"></div>
-      <p id="estado-geocodificacion-ficha" class="text-[11px] text-linez-ink/50 -mt-1">Al mover el marcador se actualizan automáticamente la dirección, distrito, vecinal y barrio del registro básico.</p>
+      <p id="estado-geocodificacion-ficha" class="text-[11px] text-linez-ink/50 -mt-1">Al mover el marcador se actualizan automáticamente la dirección, el distrito y el barrio del registro básico.</p>
       <div class="rounded-xl border border-linez-ink/10 bg-linez-cream/30 p-3">
         <label class="block text-xs font-semibold text-linez-ink/70 mb-2">Fotografía</label>
         <input id="edit-foto" type="file" accept="image/*" onchange="previsualizarFotoEdicionBasica(event)" class="w-full text-sm">
@@ -922,16 +906,16 @@ let fichaActual = null; // registro abierto en el modal
 let fichaEditableActual = false; // controla qué datos se muestran en la ficha pública/privada
 let avanzadoArchivosNuevos = { fotoAntigua: [], fotoActual: [], planoAntiguo: [], planoActual: [] }; // imágenes nuevas (hasta 5 c/u) del registro avanzado
 let avanzadoImagenesExistentes = { fotoAntigua: [], fotoActual: [], planoAntiguo: [], planoActual: [] }; // imágenes ya guardadas (removibles con "✕")
-let geoBasicoCarga = { distrito:'', vecinal:'', barrio:'' };
-let geoBasicoEdicion = { distrito:'', vecinal:'', barrio:'' };
+let geoBasicoCarga = { distrito:'', barrio:'' };
+let geoBasicoEdicion = { distrito:'', barrio:'' };
 let cierrePendiente = null; // { tipo:'basico'|'avanzado' }
 let filtroPublicoActivo = 'todas';
 let busquedaPublicaActiva = '';
 let busquedaIdPublicaActiva = '';
 let busquedaUsuarioActiva = '';
 let busquedaIdUsuarioActiva = '';
-let filtrosGeoPublico = { distrito: '', vecinal: '', barrio: '' };
-let filtrosGeoUsuario = { distrito: '', vecinal: '', barrio: '' };
+let filtrosGeoPublico = { distrito: '', barrio: '' };
+let filtrosGeoUsuario = { distrito: '', barrio: '' };
 let estadoInicialPublicacion = '';
 let snapshotBasicoInicial = '';
 let snapshotAvanzadoInicial = '';
@@ -1276,20 +1260,16 @@ function coincideId_(registro, termino) {
   if (!termino) return true;
   return normalizarTexto_(registro.id).includes(termino);
 }
-// Los filtros geográficos toman Distrito, Vecinal y Barrio del registro básico,
+// Los filtros geográficos toman Distrito y Barrio del registro básico,
 // que se completan automáticamente mediante geocodificación.
 function coincideGeo_(registro, filtros) {
   if (filtros.distrito && normalizarTexto_(registro.distrito) !== normalizarTexto_(filtros.distrito)) return false;
-  if (filtros.vecinal && normalizarTexto_(registro.vecinal) !== normalizarTexto_(filtros.vecinal)) return false;
   if (filtros.barrio && normalizarTexto_(registro.barrio) !== normalizarTexto_(filtros.barrio)) return false;
   return true;
 }
-function valoresGeo_(registros, campo, distrito = '', vecinal = '') {
+function valoresGeo_(registros, campo, distrito = '') {
   const vals = registros
-    .filter(r => {
-      return (!distrito || normalizarTexto_(r.distrito) === normalizarTexto_(distrito)) &&
-             (!vecinal || normalizarTexto_(r.vecinal) === normalizarTexto_(vecinal));
-    })
+    .filter(r => !distrito || normalizarTexto_(r.distrito) === normalizarTexto_(distrito))
     .map(r => String(r[campo] || '').trim())
     .filter(v => v && v !== '(no determinado)' && v !== 'Calculando…');
   const unicos = new Map();
@@ -1351,30 +1331,40 @@ function poblarAutocompletadoUsuario_() {
 }
 
 function poblarFiltrosGeograficosPublicos_() {
-  const regs=registrosPublicos_();
-  llenarSelect_('filtro-publico-distrito', valoresGeo_(regs,'distrito'), 'Todas');
-  const p=document.getElementById('filtro-publico-distrito')?.value||'';
-  llenarSelect_('filtro-publico-vecinal', valoresGeo_(regs,'vecinal',p), 'Todos');
-  const d=document.getElementById('filtro-publico-vecinal')?.value||'';
-  llenarSelect_('filtro-publico-barrio', valoresGeo_(regs,'barrio',p,d), 'Todas');
+  const regs = registrosPublicos_();
+  llenarSelect_('filtro-publico-distrito', valoresGeo_(regs, 'distrito'), 'Todas');
+  const distrito = document.getElementById('filtro-publico-distrito')?.value || '';
+  llenarSelect_('filtro-publico-barrio', valoresGeo_(regs, 'barrio', distrito), 'Todas');
 }
 function cambiarFiltroGeoPublico(nivel) {
-  const regs=registrosPublicos_();
-  filtrosGeoPublico.distrito=document.getElementById('filtro-publico-distrito').value;
-  if(nivel==='distrito') { filtrosGeoPublico.vecinal=''; filtrosGeoPublico.barrio=''; llenarSelect_('filtro-publico-vecinal', valoresGeo_(regs,'vecinal',filtrosGeoPublico.distrito),'Todos'); }
-  filtrosGeoPublico.vecinal=document.getElementById('filtro-publico-vecinal').value;
-  if(nivel==='distrito'||nivel==='vecinal') { filtrosGeoPublico.barrio=''; llenarSelect_('filtro-publico-barrio', valoresGeo_(regs,'barrio',filtrosGeoPublico.distrito,filtrosGeoPublico.vecinal),'Todas'); }
-  filtrosGeoPublico.barrio=document.getElementById('filtro-publico-barrio').value;
+  const regs = registrosPublicos_();
+  filtrosGeoPublico.distrito = document.getElementById('filtro-publico-distrito').value;
+  if (nivel === 'distrito') {
+    filtrosGeoPublico.barrio = '';
+    llenarSelect_('filtro-publico-barrio', valoresGeo_(regs, 'barrio', filtrosGeoPublico.distrito), 'Todas');
+  }
+  filtrosGeoPublico.barrio = document.getElementById('filtro-publico-barrio').value;
   renderPublicMap();
 }
 function resetFiltrosPublicos() {
-  busquedaPublicaActiva=''; busquedaIdPublicaActiva=''; filtrosGeoPublico={distrito:'',vecinal:'',barrio:''};
-  document.getElementById('buscador-publico').value='';
+  busquedaPublicaActiva = '';
+  busquedaIdPublicaActiva = '';
+  filtrosGeoPublico = { distrito:'', barrio:'' };
+  document.getElementById('buscador-publico').value = '';
   const buscadorIdPublico = document.getElementById('buscador-publico-id');
-  if (buscadorIdPublico) buscadorIdPublico.value='';
-  ['filtro-publico-distrito','filtro-publico-vecinal','filtro-publico-barrio'].forEach(id=>{ const e=document.getElementById(id); if(e)e.value=''; });
-  filtroPublicoActivo='todas'; document.querySelectorAll('.filtro-publico-btn').forEach((b,i)=>{b.classList.toggle('active',i===0);b.classList.toggle('bg-linez-ink',i===0);b.classList.toggle('text-white',i===0);});
-  poblarFiltrosGeograficosPublicos_(); renderPublicMap();
+  if (buscadorIdPublico) buscadorIdPublico.value = '';
+  ['filtro-publico-distrito','filtro-publico-barrio'].forEach(id => {
+    const e = document.getElementById(id);
+    if (e) e.value = '';
+  });
+  filtroPublicoActivo = 'todas';
+  document.querySelectorAll('.filtro-publico-btn').forEach((b,i) => {
+    b.classList.toggle('active', i === 0);
+    b.classList.toggle('bg-linez-ink', i === 0);
+    b.classList.toggle('text-white', i === 0);
+  });
+  poblarFiltrosGeograficosPublicos_();
+  renderPublicMap();
 }
 
 // Fecha usada para ordenar por "cargado o modificado más recientemente".
@@ -1425,7 +1415,7 @@ function abrirFicha(id, editable) {
   if (!registro) return;
   fichaActual = registro;
   fichaEditableActual = !!editable;
-  geoBasicoEdicion = { distrito: registro.distrito || '', vecinal: registro.vecinal || '', barrio: registro.barrio || '' };
+  geoBasicoEdicion = { distrito: registro.distrito || '', barrio: registro.barrio || '' };
   eliminarFotoBasicaMarcada = false;
 
   document.getElementById('ficha-id').textContent = registro.id;
@@ -1437,7 +1427,6 @@ function abrirFicha(id, editable) {
   document.getElementById('ficha-direccion').textContent = registro.direccion || '(sin dato)';
   document.getElementById('ficha-coords').textContent = (isNaN(registro.lat) ? '-' : registro.lat.toFixed(6)) + ', ' + (isNaN(registro.lng) ? '-' : registro.lng.toFixed(6));
   document.getElementById('ficha-distrito').textContent = registro.distrito || '(sin dato)';
-  document.getElementById('ficha-vecinal').textContent = registro.vecinal || '(sin dato)';
   document.getElementById('ficha-barrio').textContent = registro.barrio || '(sin dato)';
   document.getElementById('ficha-descripcion').textContent = registro.descripcionGeneral || '(sin descripción)';
 
@@ -1471,7 +1460,6 @@ function abrirFicha(id, editable) {
     document.getElementById('edit-descripcion').value = registro.descripcionGeneral || '';
     document.getElementById('edit-direccion').value = registro.direccion || '';
     document.getElementById('edit-distrito').value = registro.distrito || '';
-    document.getElementById('edit-vecinal').value = registro.vecinal || '';
     document.getElementById('edit-barrio').value = registro.barrio || '';
     document.getElementById('edit-foto').value = '';
     fotoEdicionBase64 = null;
@@ -1494,7 +1482,6 @@ function refrescarFichaAbierta_(idRegistro) {
   fichaActual = registro;
   geoBasicoEdicion = {
     distrito: registro.distrito || '',
-    vecinal: registro.vecinal || '',
     barrio: registro.barrio || ''
   };
 
@@ -1512,7 +1499,6 @@ function refrescarFichaAbierta_(idRegistro) {
     (isNaN(registro.lat) ? '-' : registro.lat.toFixed(6)) + ', ' +
     (isNaN(registro.lng) ? '-' : registro.lng.toFixed(6));
   document.getElementById('ficha-distrito').textContent = registro.distrito || '(sin dato)';
-  document.getElementById('ficha-vecinal').textContent = registro.vecinal || '(sin dato)';
   document.getElementById('ficha-barrio').textContent = registro.barrio || '(sin dato)';
   document.getElementById('ficha-descripcion').textContent = registro.descripcionGeneral || '(sin descripción)';
 
@@ -1937,9 +1923,8 @@ async function geocodificarDireccionCarga(mostrarMensajes = false) {
 }
 
 // Completa el campo de dirección a partir de un punto del mapa (reverse geocoding).
-// Interpreta la respuesta de Nominatim (reverse) y arma: dirección breve
-// (calle + altura, si está disponible + barrio), y sugiere distrito /
-// vecinal y barrio para completar automáticamente el registro.
+// Interpreta la respuesta de Nominatim (reverse) y arma una dirección breve
+// y sugiere distrito y barrio para completar automáticamente el registro.
 function normalizarDistritoRosario_(valor) {
   const texto = String(valor || '').trim();
   if (!texto) return '';
@@ -1949,9 +1934,6 @@ function normalizarDistritoRosario_(valor) {
   return nombres[m[1].toLowerCase()] || '';
 }
 
-// Nominatim no tiene una clave estándar para "vecinal". Se aprovechan los
-// niveles neighborhood/quarter cuando están disponibles; si OSM no contiene
-// ese dato, el campo queda como "(no determinado)".
 function interpretarDireccionNominatim_(resultado) {
   const d = (resultado && resultado.address) || {};
   const calle = d.road || d.pedestrian || d.path || '';
@@ -1969,29 +1951,23 @@ function interpretarDireccionNominatim_(resultado) {
   const barrioCandidatos = [d.suburb, d.quarter, d.neighbourhood, d.residential];
   let barrio = barrioCandidatos.find(v => v && !esNombreDistrito(v)) || '';
 
-  const vecinalCandidatos = [d.neighbourhood, d.quarter, d.residential];
-  let vecinal = vecinalCandidatos.find(v => v && !esNombreDistrito(v) && normalizarTexto_(v) !== normalizarTexto_(barrio)) || '';
-
   distrito = distrito || '(no determinado)';
-  vecinal = vecinal || '(no determinado)';
   barrio = barrio || '(no determinado)';
 
   const breve = [calle, altura].filter(Boolean).join(' ');
   const texto = [breve, ciudad].filter(Boolean).join(', ') || (resultado && resultado.display_name) || '';
-  return { texto, distrito, vecinal, barrio, displayName: (resultado && resultado.display_name) || texto };
+  return { texto, distrito, barrio, displayName: (resultado && resultado.display_name) || texto };
 }
 
 function actualizarGeoCarga_(geo) {
-  geoBasicoCarga = { distrito: geo.distrito || '', vecinal: geo.vecinal || '', barrio: geo.barrio || '' };
+  geoBasicoCarga = { distrito: geo.distrito || '', barrio: geo.barrio || '' };
   document.getElementById('carga-distrito').value = geoBasicoCarga.distrito;
-  document.getElementById('carga-vecinal').value = geoBasicoCarga.vecinal;
   document.getElementById('carga-barrio').value = geoBasicoCarga.barrio;
   actualizarBotonGuardarCarga_();
 }
 function actualizarGeoEdicion_(geo) {
-  geoBasicoEdicion = { distrito: geo.distrito || '', vecinal: geo.vecinal || '', barrio: geo.barrio || '' };
+  geoBasicoEdicion = { distrito: geo.distrito || '', barrio: geo.barrio || '' };
   document.getElementById('edit-distrito').value = geoBasicoEdicion.distrito;
-  document.getElementById('edit-vecinal').value = geoBasicoEdicion.vecinal;
   document.getElementById('edit-barrio').value = geoBasicoEdicion.barrio;
   actualizarBotonGuardarBasico_();
 }
@@ -2024,7 +2000,7 @@ async function completarDireccionDesdeCoordenadasCarga(lat, lng) {
 
 // ---- Geocodificación al editar la ubicación desde la ficha ----
 // Coloca / mueve el marcador de la ficha en edición y siempre actualiza
-// la dirección + distrito/vecinal/barrio del registro básico.
+// la dirección + distrito/barrio del registro básico.
 function colocarMarcadorFicha_(lat, lng) {
   const punto = L.latLng(lat, lng);
   if (markerEditFicha) {
@@ -2133,7 +2109,6 @@ function guardarRegistroBasico(evento) {
     descripcionGeneral: document.getElementById('carga-descripcion').value,
     direccion: document.getElementById('carga-direccion').value,
     distrito: document.getElementById('carga-distrito').value,
-    vecinal: document.getElementById('carga-vecinal').value,
     barrio: document.getElementById('carga-barrio').value,
     lat: markerCarga.getLatLng().lat,
     lng: markerCarga.getLatLng().lng,
@@ -2152,8 +2127,8 @@ function guardarRegistroBasico(evento) {
         fotoCargaBase64 = null;
         if (markerCarga) { mapCarga.removeLayer(markerCarga); markerCarga = null; }
         if (circuloPrecisionCarga) { mapCarga.removeLayer(circuloPrecisionCarga); circuloPrecisionCarga = null; }
-        geoBasicoCarga = { distrito:'', vecinal:'', barrio:'' };
-        ['carga-distrito','carga-vecinal','carga-barrio'].forEach(id => document.getElementById(id).value = '');
+        geoBasicoCarga = { distrito:'', barrio:'' };
+        ['carga-distrito','carga-barrio'].forEach(id => document.getElementById(id).value = '');
         document.getElementById('carga-coords-display').textContent = 'Sin ubicar';
         document.getElementById('estado-geocodificacion-carga').textContent = 'Escribí una dirección y presioná Enter o "Ubicar dirección". También podés marcar el punto directamente en el mapa.';
         document.getElementById('estado-geocodificacion-carga').classList.remove('text-linez-black');
@@ -2262,7 +2237,6 @@ function filtrarUsuarioGlobal() {
   busquedaUsuarioActiva = normalizarTexto_(document.getElementById('buscador-usuario').value);
   busquedaIdUsuarioActiva = normalizarTexto_(document.getElementById('buscador-usuario-id')?.value || '');
   filtrosGeoUsuario.distrito = document.getElementById('filtro-usuario-distrito')?.value || '';
-  filtrosGeoUsuario.vecinal = document.getElementById('filtro-usuario-vecinal')?.value || '';
   filtrosGeoUsuario.barrio = document.getElementById('filtro-usuario-barrio')?.value || '';
   renderMiosMap();
   renderListadoUsuario();
@@ -2281,19 +2255,19 @@ function toggleFiltrosUsuario() {
 }
 
 function poblarFiltrosGeograficosUsuario_() {
-  const regs=registrosVisiblesParaUsuario();
-  llenarSelect_('filtro-usuario-distrito', valoresGeo_(regs,'distrito'), 'Todas');
-  const p=document.getElementById('filtro-usuario-distrito')?.value||'';
-  llenarSelect_('filtro-usuario-vecinal', valoresGeo_(regs,'vecinal',p), 'Todos');
-  const d=document.getElementById('filtro-usuario-vecinal')?.value||'';
-  llenarSelect_('filtro-usuario-barrio', valoresGeo_(regs,'barrio',p,d), 'Todas');
+  const regs = registrosVisiblesParaUsuario();
+  llenarSelect_('filtro-usuario-distrito', valoresGeo_(regs, 'distrito'), 'Todas');
+  const distrito = document.getElementById('filtro-usuario-distrito')?.value || '';
+  llenarSelect_('filtro-usuario-barrio', valoresGeo_(regs, 'barrio', distrito), 'Todas');
 }
 function cambiarFiltroGeoUsuario(nivel) {
-  const regs=registrosVisiblesParaUsuario();
-  filtrosGeoUsuario.distrito=document.getElementById('filtro-usuario-distrito').value;
-  if(nivel==='distrito') { filtrosGeoUsuario.vecinal=''; filtrosGeoUsuario.barrio=''; llenarSelect_('filtro-usuario-vecinal', valoresGeo_(regs,'vecinal',filtrosGeoUsuario.distrito),'Todos'); }
-  filtrosGeoUsuario.vecinal=document.getElementById('filtro-usuario-vecinal').value;
-  if(nivel==='distrito'||nivel==='vecinal') { filtrosGeoUsuario.barrio=''; llenarSelect_('filtro-usuario-barrio', valoresGeo_(regs,'barrio',filtrosGeoUsuario.distrito,filtrosGeoUsuario.vecinal),'Todas'); }
+  const regs = registrosVisiblesParaUsuario();
+  filtrosGeoUsuario.distrito = document.getElementById('filtro-usuario-distrito').value;
+  if (nivel === 'distrito') {
+    filtrosGeoUsuario.barrio = '';
+    llenarSelect_('filtro-usuario-barrio', valoresGeo_(regs, 'barrio', filtrosGeoUsuario.distrito), 'Todas');
+  }
+  filtrosGeoUsuario.barrio = document.getElementById('filtro-usuario-barrio').value;
   filtrarUsuarioGlobal();
 }
 function resetFiltrosUsuario() {
@@ -2303,9 +2277,12 @@ function resetFiltrosUsuario() {
   busquedaIdUsuarioActiva = '';
   document.getElementById('filtro-usuario-categoria').value = 'Todas';
   document.getElementById('filtro-usuario-estado').value = 'Todos';
-  filtrosGeoUsuario={distrito:'',vecinal:'',barrio:''};
+  filtrosGeoUsuario = { distrito:'', barrio:'' };
   poblarFiltrosGeograficosUsuario_();
-  ['filtro-usuario-distrito','filtro-usuario-vecinal','filtro-usuario-barrio'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  ['filtro-usuario-distrito','filtro-usuario-barrio'].forEach(id => {
+    const e = document.getElementById(id);
+    if (e) e.value = '';
+  });
   filtrarUsuarioGlobal();
 }
 
@@ -2602,7 +2579,6 @@ function snapshotCarga_() {
     descripcion: document.getElementById('carga-descripcion')?.value || '',
     direccion: document.getElementById('carga-direccion')?.value || '',
     distrito: document.getElementById('carga-distrito')?.value || '',
-    vecinal: document.getElementById('carga-vecinal')?.value || '',
     barrio: document.getElementById('carga-barrio')?.value || '',
     lat: pos ? Number(pos.lat).toFixed(7) : '',
     lng: pos ? Number(pos.lng).toFixed(7) : '',
@@ -2646,7 +2622,6 @@ function snapshotBasico_() {
     descripcion: document.getElementById('edit-descripcion')?.value || '',
     direccion: document.getElementById('edit-direccion')?.value || '',
     distrito: document.getElementById('edit-distrito')?.value || '',
-    vecinal: document.getElementById('edit-vecinal')?.value || '',
     barrio: document.getElementById('edit-barrio')?.value || '',
     lat: Number(pos.lat || 0).toFixed(7),
     lng: Number(pos.lng || 0).toFixed(7),
@@ -2690,7 +2665,6 @@ async function guardarEdicionBasica(opciones = {}) {
     descripcionGeneral: document.getElementById('edit-descripcion').value,
     direccion: document.getElementById('edit-direccion').value,
     distrito: document.getElementById('edit-distrito').value,
-    vecinal: document.getElementById('edit-vecinal').value,
     barrio: document.getElementById('edit-barrio').value,
     fotoBase64: fotoEdicionBase64 || '', eliminarFoto: eliminarFotoBasicaMarcada
   };
@@ -2706,7 +2680,6 @@ async function guardarEdicionBasica(opciones = {}) {
     fichaActual.descripcionGeneral = payload.descripcionGeneral;
     fichaActual.direccion = payload.direccion;
     fichaActual.distrito = payload.distrito;
-    fichaActual.vecinal = payload.vecinal;
     fichaActual.barrio = payload.barrio;
     if (payload.lat !== undefined) fichaActual.lat = payload.lat;
     if (payload.lng !== undefined) fichaActual.lng = payload.lng;
@@ -3106,7 +3079,7 @@ function resumenCambiosBasico_() {
   if (!snapshotBasicoInicial) return [];
   const a = JSON.parse(snapshotBasicoInicial), n = JSON.parse(snapshotBasico_());
   const out = resumenCambiosObjeto_(a, n, {
-    descripcion:'Descripción general', direccion:'Dirección', distrito:'Distrito', vecinal:'Vecinal', barrio:'Barrio',
+    descripcion:'Descripción general', direccion:'Dirección', distrito:'Distrito', barrio:'Barrio',
     lat:'Latitud', lng:'Longitud'
   });
   if (a.fotoNueva !== n.fotoNueva || a.eliminarFoto !== n.eliminarFoto) {
@@ -3206,7 +3179,7 @@ function renderListadoUsuario() {
 function filasParaExportar() {
   return registrosVisiblesParaUsuario().filter(coincideFiltrosUsuario_).map(r => ({
     ID: r.id, Categoria: r.categoria, Descripcion_general: r.descripcionGeneral, Estado: r.estado, Direccion: r.direccion,
-    Distrito: r.distrito, Vecinal: r.vecinal, Barrio: r.barrio,
+    Distrito: r.distrito, Barrio: r.barrio,
     Lat: r.lat, Long: r.lng, Usuario: r.usuario
   }));
 }
@@ -3239,7 +3212,7 @@ function descargarCSV(filas, nombreArchivo) {
 function descargarFichaExcel() {
   if (!fichaActual) return;
   const fila = { ID: fichaActual.id, Categoria: fichaActual.categoria, Descripcion_general: fichaActual.descripcionGeneral,
-    Direccion: fichaActual.direccion, Distrito: fichaActual.distrito, Vecinal: fichaActual.vecinal, Barrio: fichaActual.barrio,
+    Direccion: fichaActual.direccion, Distrito: fichaActual.distrito, Barrio: fichaActual.barrio,
     Lat: fichaActual.lat, Long: fichaActual.lng };
   const ws = XLSX.utils.json_to_sheet([fila]);
   const wb = XLSX.utils.book_new();
@@ -3250,15 +3223,47 @@ function descargarFichaExcel() {
 function descargarFichaCSV() {
   if (!fichaActual) return;
   descargarCSV([{ ID: fichaActual.id, Categoria: fichaActual.categoria, Descripcion_general: fichaActual.descripcionGeneral,
-    Direccion: fichaActual.direccion, Distrito: fichaActual.distrito, Vecinal: fichaActual.vecinal, Barrio: fichaActual.barrio,
+    Direccion: fichaActual.direccion, Distrito: fichaActual.distrito, Barrio: fichaActual.barrio,
     Lat: fichaActual.lat, Long: fichaActual.lng }], `ficha_${fichaActual.id}.csv`);
 }
 
 /* ---------------------------------------------------------------
    Login / solicitud de acceso
 --------------------------------------------------------------- */
-function abrirLogin() { document.getElementById('modal-login').classList.remove('hidden'); }
-function cerrarLogin() { document.getElementById('modal-login').classList.add('hidden'); document.getElementById('login-error').classList.add('hidden'); }
+function abrirLogin() {
+  document.getElementById('modal-login').classList.remove('hidden');
+  const clave = document.getElementById('login-clave');
+  const check = document.getElementById('login-mostrar-clave');
+  const btn = document.getElementById('btn-mostrar-login-clave');
+  if (clave) clave.type = 'password';
+  if (check) check.checked = false;
+  if (btn) { btn.textContent = 'Mostrar'; btn.setAttribute('aria-pressed', 'false'); }
+}
+function cerrarLogin() {
+  document.getElementById('modal-login').classList.add('hidden');
+  document.getElementById('login-error').classList.add('hidden');
+  const clave = document.getElementById('login-clave');
+  const check = document.getElementById('login-mostrar-clave');
+  const btn = document.getElementById('btn-mostrar-login-clave');
+  if (clave) clave.type = 'password';
+  if (check) check.checked = false;
+  if (btn) { btn.textContent = 'Mostrar'; btn.setAttribute('aria-pressed', 'false'); }
+}
+
+function alternarVisibilidadClaveLogin_(forzar) {
+  const input = document.getElementById('login-clave');
+  const check = document.getElementById('login-mostrar-clave');
+  const btn = document.getElementById('btn-mostrar-login-clave');
+  if (!input) return;
+
+  const mostrar = typeof forzar === 'boolean' ? forzar : input.type === 'password';
+  input.type = mostrar ? 'text' : 'password';
+  if (check) check.checked = mostrar;
+  if (btn) {
+    btn.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+    btn.setAttribute('aria-pressed', mostrar ? 'true' : 'false');
+  }
+}
 
 function enviarLogin(evento) {
   evento.preventDefault();
