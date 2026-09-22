@@ -986,8 +986,25 @@ function cargarDatos() {
     document.getElementById('contador-publico').textContent = 'Falta configurar WEB_APP_URL en index.html (ver README).';
     return;
   }
-  return fetch(WEB_APP_URL)
-    .then(r => r.json())
+  // La carga pública usa POST porque el proxy de Cloudflare responde
+  // correctamente a las operaciones POST, mientras que el GET inicial
+  // puede devolver una página HTML/404 antes de llegar a Apps Script.
+  return fetch(WEB_APP_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'getPublicData' })
+  })
+    .then(async r => {
+      const texto = await r.text();
+      let res;
+      try {
+        res = JSON.parse(texto);
+      } catch (e) {
+        throw new Error(`El servidor devolvió una respuesta no válida (HTTP ${r.status}).`);
+      }
+      if (!r.ok) throw new Error(res.message || `HTTP ${r.status}`);
+      return res;
+    })
     .then(res => {
       if (res.status !== 'success') throw new Error(res.message || 'Error al cargar datos');
       TODOS_LOS_REGISTROS = res.data || [];
@@ -1928,10 +1945,17 @@ async function geocodificarDireccionCarga(mostrarMensajes = false) {
 function normalizarDistritoRosario_(valor) {
   const texto = String(valor || '').trim();
   if (!texto) return '';
-  const m = texto.match(/(?:distrito\s+)?(centro|norte|noroeste|oeste|sudoeste|sur)\b/i);
-  if (!m) return '';
   const nombres = { centro:'Centro', norte:'Norte', noroeste:'Noroeste', oeste:'Oeste', sudoeste:'Sudoeste', sur:'Sur' };
-  return nombres[m[1].toLowerCase()] || '';
+
+  // En campos administrativos individuales Nominatim puede devolver
+  // "Distrito Norte" o simplemente "Norte".
+  let m = texto.match(/^\s*(?:distrito\s+)?(centro|norte|noroeste|oeste|sudoeste|sur)\s*$/i);
+  if (m) return nombres[m[1].toLowerCase()] || '';
+
+  // En display_name el distrito aparece dentro de una dirección completa,
+  // por ejemplo: "..., Alberdi, Distrito Norte, Rosario, ...".
+  m = texto.match(/\bdistrito\s+(centro|norte|noroeste|oeste|sudoeste|sur)\b/i);
+  return m ? (nombres[m[1].toLowerCase()] || '') : '';
 }
 
 function interpretarDireccionNominatim_(resultado) {
@@ -1946,6 +1970,10 @@ function interpretarDireccionNominatim_(resultado) {
     distrito = normalizarDistritoRosario_(candidato);
     if (distrito) break;
   }
+
+  // Algunos puntos de Rosario no devuelven el distrito en address.city_district,
+  // aunque sí figura explícitamente en display_name. Lo usamos como respaldo.
+  if (!distrito) distrito = normalizarDistritoRosario_((resultado && resultado.display_name) || '');
 
   const esNombreDistrito = valor => !!normalizarDistritoRosario_(valor);
   const barrioCandidatos = [d.suburb, d.quarter, d.neighbourhood, d.residential];
@@ -3120,20 +3148,25 @@ function salirSinGuardar_() {
 async function guardarYCerrar_() {
   const tipo = cierrePendiente?.tipo;
   const boton = document.getElementById('btn-guardar-cerrar');
-  if (!iniciarGuardadoBoton_(boton)) return;
-  document.getElementById('modal-cambios-pendientes').classList.add('hidden');
+  if (!iniciarGuardadoBoton_(boton, 'Guardando…')) return;
+
+  // El modal permanece visible durante el guardado para que el usuario vea
+  // el estado "Guardando…" y el botón quede bloqueado contra dobles clics.
   let ok = false;
-  if (tipo === 'basico') ok = await guardarEdicionBasica({ silencioso:true });
-  if (tipo === 'avanzado') ok = await guardarRegistroAvanzado(null, { silencioso:true });
-  if (ok) {
-    if (tipo === 'basico') cerrarEdicionBasica();
-    if (tipo === 'avanzado') cerrarFormularioAvanzado();
-    cierrePendiente = null;
-    mostrarAlerta('Cambios guardados.');
-  } else {
-    document.getElementById('modal-cambios-pendientes').classList.remove('hidden');
+  try {
+    if (tipo === 'basico') ok = await guardarEdicionBasica({ silencioso:true });
+    if (tipo === 'avanzado') ok = await guardarRegistroAvanzado(null, { silencioso:true });
+
+    if (ok) {
+      document.getElementById('modal-cambios-pendientes').classList.add('hidden');
+      if (tipo === 'basico') cerrarEdicionBasica();
+      if (tipo === 'avanzado') cerrarFormularioAvanzado();
+      cierrePendiente = null;
+      mostrarAlerta('Cambios guardados.');
+    }
+  } finally {
+    finalizarGuardadoBoton_(boton, false);
   }
-  finalizarGuardadoBoton_(boton, false);
 }
 function intentarCerrarEdicionBasica() {
   const resumen = resumenCambiosBasico_();
